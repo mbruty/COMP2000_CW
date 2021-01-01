@@ -3,6 +3,7 @@ package com.stock;
 public class StockItem {
     private final String name;
     private float price;
+    private int id;
     private int quantity;
 
     public StockItem(String commaDelimitedLine) {
@@ -10,7 +11,8 @@ public class StockItem {
         name = items[0];
         try{
             quantity = Integer.parseInt(items[1]);
-            price = Float.parseFloat(items[2]);
+            id = Integer.parseInt(items[2]);
+            price = Float.parseFloat(items[3]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -23,6 +25,6 @@ public class StockItem {
     }
 
     public String toCommaDelimited() {
-        return this.name + ',' + quantity + ',' + price + '\n';
+        return this.name + ',' + quantity + ',' + id + ',' + price + '\n';
     }
 }
