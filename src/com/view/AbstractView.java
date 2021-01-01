@@ -1,23 +1,22 @@
 package com.view;
 
+import com.KeyValuePair;
 import com.controller.AbstractController;
-import com.stock.StockItem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public abstract class AbstractView extends JFrame {
-    protected AbstractController controller;
+  protected AbstractController controller;
 
-    protected void initalise(int rows, int cols){
-        this.setLayout(new GridLayout(rows, cols));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(600, 600));
-        this.pack();
+  protected void initalise(){
+    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    this.setPreferredSize(new Dimension(600, 600));
+    this.pack();
+    this.setVisible(false);
+  }
 
-        this.setVisible(false);
-    }
+  public abstract void update(KeyValuePair item);
 
-    public abstract void update(List<StockItem> items);
+  public abstract void setController(AbstractController controller);
 }
