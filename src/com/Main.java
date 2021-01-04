@@ -1,14 +1,12 @@
 package com;
 
 import com.controller.AbstractController;
-import com.controller.MultiModelController;
-import com.model.IModel;
+import com.controller.StockController;
 import com.model.ItemModel;
 import com.view.Admin;
 import com.view.PointOfSale;
 import com.view.StartupForm;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class Main {
     Admin adminForm = new Admin();
     PointOfSale pointOfSaleForm = new PointOfSale();
     StartupForm form = new StartupForm(adminForm, pointOfSaleForm);
-    AbstractController adminController = new MultiModelController(items, adminForm);
+    AbstractController adminController = new StockController(items, adminForm);
     form.setVisible(true);
 
     String[] options = new String[items.size()];
