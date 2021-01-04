@@ -1,34 +1,79 @@
 package com.view;
 
 import com.KeyValuePair;
+import com.Utils.ObjectToArray;
 import com.controller.AbstractController;
+import com.controller.StockController;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Admin extends AbstractView {
   private JPanel mainPanel;
   private JList<String> productList;
   private JTextField nameTf;
-  private JTextField priceTf;
   private JButton createNewButton;
   private JButton saveChangesButton;
-  private JTextField textField1;
+  private JSpinner codeSpinner;
+  private JSpinner priceSpinner;
+  private JLabel currencyLbl;
+  private JSpinner quantitySpinner;
+  private JComboBox sortOptions;
   private JLabel valueLabel;
-  private AbstractController controller;
+  private StockController controller;
 
   public Admin() {
+    sortOptions.addActionListener(
+            e -> {
+              controller.sortModels((String) Objects.requireNonNull(sortOptions.getSelectedItem()));
+            }
+    );
     nameTf.addActionListener(
             e -> {
-              controller.setModelProperty(new KeyValuePair<String>(AbstractController.NAME, priceTf.getText()));
+              controller.setModelProperty(new KeyValuePair<String>(AbstractController.NAME, nameTf.getText()));
             }
     );
     productList.addListSelectionListener(
             e -> {
-              if(!e.getValueIsAdjusting()) {
+              if (!e.getValueIsAdjusting()) {
                 controller.swapModel(productList.getSelectedIndex());
               }
             }
     );
+    priceSpinner.addChangeListener(
+            e -> {
+              controller.setModelProperty(new KeyValuePair<Float>(
+                      AbstractController.PRICE,
+                      priceSpinner.getValue()
+              ));
+            }
+    );
+    quantitySpinner.addChangeListener(
+            e -> {
+              controller.setModelProperty(new KeyValuePair<Integer>(
+                      AbstractController.QUANTITY,
+                      quantitySpinner.getValue()
+              ));
+            }
+    );
+    codeSpinner.addChangeListener(
+            e -> {
+              controller.setModelProperty(new KeyValuePair<Integer>(
+                      AbstractController.CODE,
+                      codeSpinner.getValue()
+              ));
+            }
+    );
+//    createNewButton.addActionListener(
+//            e -> {
+//              controller.
+//            }
+//    );
+    priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
+    SpinnerNumberModel intSpinner = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+    codeSpinner.setModel(intSpinner);
+    quantitySpinner.setModel(intSpinner);
     this.setContentPane(mainPanel);
     this.initalise();
   }
@@ -38,18 +83,23 @@ public class Admin extends AbstractView {
     productList.setSelectedIndex(0);
   }
 
-  @Override
   public void update(KeyValuePair item) {
-    switch(item.key) {
-      case AbstractController.NAME ->
-              nameTf.setText((String) item.value);
-      case AbstractController.PRICE ->
-              priceTf.setText(item.value.toString());
+    System.out.println(item.value);
+    switch (item.key) {
+      case AbstractController.NAME -> {
+        Object[] array =  ObjectToArray.convertToObjectArray(item.value);
+        String[] names = Arrays.copyOf(array, array.length, String[].class);
+        productList.setListData((String[]) names);
+        nameTf.setText((String) names[Math.max(productList.getSelectedIndex(), 0)]);
+      }
+      case AbstractController.PRICE -> priceSpinner.setValue(item.value);
+      case AbstractController.CODE -> codeSpinner.setValue(item.value);
+      case AbstractController.QUANTITY -> quantitySpinner.setValue(item.value);
     }
   }
 
   @Override
   public void setController(AbstractController controller) {
-    this.controller = controller;
+    this.controller = (StockController) controller;
   }
 }
