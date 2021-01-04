@@ -26,6 +26,17 @@ public class ItemModel implements IModel{
     }
   }
 
+  public ItemModel(String name, float price, int quantity, int code) {
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+    this.code = code;
+  }
+
+  public ItemModel () {
+    
+  }
+
   @Override
   public void subscribe(AbstractController observer) {
     observers.add(observer);
@@ -62,17 +73,21 @@ public class ItemModel implements IModel{
 
   public void setName(String name) {
     this.name = name;
+    onChange(new KeyValuePair<String>(AbstractController.NAME, name));
   }
 
-  public void setPrice(float price) {
-    this.price = price;
+  public void setPrice(double price) {
+    this.price = (float) price;
+    onChange(new KeyValuePair<Float>(AbstractController.PRICE, price));
   }
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
+    onChange(new KeyValuePair<Integer>(AbstractController.QUANTITY, quantity));
   }
 
   public void setCode(int code) {
     this.code = code;
+    onChange(new KeyValuePair<Integer>(AbstractController.CODE, code));
   }
 }
