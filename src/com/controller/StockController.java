@@ -10,7 +10,7 @@ import java.util.List;
 import com.model.ItemModel;
 import com.view.AbstractView;
 
-public class StockModel extends AbstractController {
+public class StockController extends AbstractController {
 
   private final List<ItemModel> models;
   private final AbstractView view;
@@ -19,7 +19,7 @@ public class StockModel extends AbstractController {
 
   private Method[] modelMethods;
 
-  public StockModel(List<ItemModel> models, AbstractView view) {
+  public StockController(List<ItemModel> models, AbstractView view) {
     this.models = models;
     this.view = view;
 
@@ -90,7 +90,7 @@ public class StockModel extends AbstractController {
            models) {
         names.add(model.getName());
       }
-      view.
+      view.update(new KeyValuePair<String[]>(NAME, names.toArray()));
     } else {
       view.update(item);
 
