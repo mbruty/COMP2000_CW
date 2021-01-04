@@ -1,23 +1,65 @@
 package com.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+// Heap sort implementation
+// Strategy pattern in use
+// Pick a strategy to use to decide how the array will be sorted
+// The strategy is the comparison to be used
+// i.e. sortInteger will return first > second;
+// sortIntegerReversed will return first < second;
+// sortString will return string.charAt(i) > string.charAt(i);
 
-public abstract class AbstractSort {
+public class Sort<T> {
+  private ISort strategy;
+  private final T[] array;
 
-  private final List<Object> array = new ArrayList<>();
-
-  public final void runTemplate(List<Object> array) {
-    
+  public Sort(ISort strategy, T[] array) {
+    this.strategy = strategy;
+    this.array = array;
   }
 
-  protected void start() {
+  public void changeStrategy(ISort strategy) {
+    this.strategy = strategy;
+  }
+  public T[] doSort() {
+    buildMaxHeap();
+    for(int endIndex = array.length - 1; endIndex > 0; endIndex--) {
+      doSwap(0, endIndex);
+      siftDown(0, endIndex - 1);
 
+    }
+    return this.array;
   }
 
-  protected abstract void sort();
+  private void buildMaxHeap() {
+    int firstParentIndex = (array.length - 2) / 2;
+    for(int currentIndex = firstParentIndex; currentIndex >= 0; currentIndex--) {
+      siftDown(currentIndex, array.length - 1);
+    }
+  }
 
-  protected void end() {
+  private void siftDown(int currentIndex, int endIndex) {
+    int childOneIndex = currentIndex * 2 + 1;
+    while(childOneIndex <= endIndex) {
+      int childTwoIndex = currentIndex * 2 + 2 <= endIndex ? currentIndex * 2 + 2 : -1;
+      int indexToSwap;
+      if(childTwoIndex != -1 && strategy.doCompare(this.array[childTwoIndex], this.array[childOneIndex])) {
+        indexToSwap = childTwoIndex;
+      } else {
+        indexToSwap = childOneIndex;
+      }
+      if(strategy.doCompare(this.array[indexToSwap], this.array[currentIndex])) {
+        doSwap(currentIndex, indexToSwap);
+        currentIndex = indexToSwap;
+        childOneIndex = currentIndex * 2 + 1;
+      } else {
+        return;
+      }
+    }
+  }
 
+  private void doSwap(int i, int j) {
+    T temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
   }
 }
