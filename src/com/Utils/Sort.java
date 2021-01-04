@@ -17,17 +17,25 @@ public class Sort<T> {
     this.array = array;
   }
 
+  public Sort(T[] array) {
+    this.array = array;
+  }
+
   public void changeStrategy(ISort strategy) {
     this.strategy = strategy;
   }
-  public T[] doSort() {
+
+  // Doesn't need to return anything as it directly changes the array
+  public void doSort() throws Exception {
+    if(strategy == null) {
+      throw new Exception("No strategy set!");
+    }
     buildMaxHeap();
     for(int endIndex = array.length - 1; endIndex > 0; endIndex--) {
       doSwap(0, endIndex);
       siftDown(0, endIndex - 1);
 
     }
-    return this.array;
   }
 
   private void buildMaxHeap() {
