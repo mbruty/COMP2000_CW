@@ -1,3 +1,5 @@
+package com.Utils;
+
 import com.Utils.Sort;
 import com.Utils.SortInteger;
 import com.Utils.SortString;
@@ -24,18 +26,26 @@ class SortTest {
       sortMe[i] = rand.nextInt();
     }
     Sort<Integer> sort = new Sort<>(new SortInteger(), sortMe);
-    sort.doSort();
+    try {
+      sort.doSort();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     assertTrue(isSorted(sortMe));
   }
 
   @org.junit.jupiter.api.Test
   void doSortWithString(){
     String[] sortMe = new String[]{
-      "aa", "X", "b", "x", "a", "A",
+      "aa", "X", "b", "aaaa", "x", "a", "A",
     };
     Sort<String> sort = new Sort<>(new SortString(), sortMe);
-    sort.doSort();
-    assertArrayEquals(new String[]{"A", "a", "aa", "b", "X", "x"}, sortMe);
+    try{
+      sort.doSort();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    assertArrayEquals(new String[]{"A", "a", "aa", "aaaa", "b", "X", "x"}, sortMe);
   }
   boolean isSorted(Integer[] array) {
     for (int i = 0; i < array.length - 2; i++) {
