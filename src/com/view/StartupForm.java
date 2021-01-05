@@ -18,6 +18,7 @@ public class StartupForm extends AbstractView {
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setContentPane(mainPanel);
     this.pack();
+    this.center();
     this.setVisible(true);
     adminButton.addActionListener(e -> {
       admin.setVisible(true);
