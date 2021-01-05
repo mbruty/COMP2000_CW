@@ -1,12 +1,16 @@
 package com.controller;
 
 import com.KeyValuePair;
+import com.Main;
 import com.Utils.Sort;
 import com.Utils.SortItemsOnName;
 import com.Utils.SortItemsOnPrice;
 import com.Utils.SortItemsOnQuantity;
 import com.model.IModel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +40,41 @@ public class StockController extends AbstractController {
     modelMethods = currentModel.getClass().getDeclaredMethods();
 
     setupModel();
+  }
+
+  public void writeToFile() {
+    // Write the header to the file
+    writeHeader();
+    for (ItemModel model:
+         models) {
+      if(!model.writeToFile()){
+        // If the write failed
+        view.update(new KeyValuePair<String>("FileWrite", "failed"));
+        return;
+      }
+    }
+    // If the write was successful, commit
+    File file = new File(Main.STOCK_PATH + ".tmp");
+    File rename = new File(Main.STOCK_PATH);
+    if(!file.renameTo(rename)){
+      view.update(new KeyValuePair<String>("FileWrite", "failed"));
+    } else {
+      view.update(new KeyValuePair<String>("FileWrite", "saved"));
+    }
+  }
+
+  private void writeHeader() {
+    try {
+      FileWriter writer = new FileWriter(Main.STOCK_PATH + ".tmp");
+      // Get the header that was saved in main
+      writer.write(Main.header);
+      writer.close();
+      view.update(new KeyValuePair<String>("FileWrite", "saved"));
+
+    } catch (IOException e) {
+      e.printStackTrace();
+      view.update(new KeyValuePair<String>("FileWrite", "failed"));
+    }
   }
 
   public void newModel() {

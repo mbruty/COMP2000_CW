@@ -1,13 +1,15 @@
 package com.model;
 
 import com.KeyValuePair;
+import com.Main;
 import com.controller.AbstractController;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemModel implements IModel{
-
   private final List<AbstractController> observers = new ArrayList<>();
   private String name;
   private float price;
@@ -89,5 +91,18 @@ public class ItemModel implements IModel{
   public void setCode(int code) {
     this.code = code;
     onChange(new KeyValuePair<Integer>(AbstractController.CODE, code));
+  }
+
+  public boolean writeToFile() {
+    try {
+      // Write in append mode
+      FileWriter writer = new FileWriter(Main.STOCK_PATH + ".tmp", true);
+      writer.write(this.name + ',' + this.quantity + ',' + this.code + ',' + this.price + '\n');
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
 }
