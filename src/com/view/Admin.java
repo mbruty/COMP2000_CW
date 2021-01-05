@@ -21,6 +21,7 @@ public class Admin extends AbstractView {
   private JLabel currencyLbl;
   private JSpinner quantitySpinner;
   private JComboBox sortOptions;
+  private JLabel fileStatusLbl;
   private JLabel valueLabel;
   private StockController controller;
 
@@ -28,6 +29,11 @@ public class Admin extends AbstractView {
     sortOptions.addActionListener(
             e -> {
               controller.sortModels((String) Objects.requireNonNull(sortOptions.getSelectedItem()));
+            }
+    );
+    saveChangesButton.addActionListener(
+            e -> {
+              controller.writeToFile();
             }
     );
     nameTf.addActionListener(
@@ -96,6 +102,7 @@ public class Admin extends AbstractView {
       case AbstractController.PRICE -> priceSpinner.setValue(item.value);
       case AbstractController.CODE -> codeSpinner.setValue(item.value);
       case AbstractController.QUANTITY -> quantitySpinner.setValue(item.value);
+      case "FileWrite" -> fileStatusLbl.setText((String)item.value);
     }
   }
 
