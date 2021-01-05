@@ -6,6 +6,7 @@ import com.controller.AbstractController;
 import com.controller.StockController;
 
 import javax.swing.*;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public class Admin extends AbstractView {
     );
     nameTf.addActionListener(
             e -> {
-              controller.setModelProperty(new KeyValuePair<String>(AbstractController.NAME, nameTf.getText()));
+                controller.setModelProperty(new KeyValuePair<String>(AbstractController.NAME, nameTf.getText()));
             }
     );
     productList.addListSelectionListener(
@@ -65,11 +66,11 @@ public class Admin extends AbstractView {
               ));
             }
     );
-//    createNewButton.addActionListener(
-//            e -> {
-//              controller.
-//            }
-//    );
+    createNewButton.addActionListener(
+            e -> {
+              controller.newModel();
+            }
+    );
     priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
     SpinnerNumberModel intSpinner = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
     codeSpinner.setModel(intSpinner);
@@ -84,14 +85,14 @@ public class Admin extends AbstractView {
   }
 
   public void update(KeyValuePair item) {
-    System.out.println(item.value);
     switch (item.key) {
-      case AbstractController.NAME -> {
+      case AbstractController.NAMES -> {
         Object[] array =  ObjectToArray.convertToObjectArray(item.value);
         String[] names = Arrays.copyOf(array, array.length, String[].class);
         productList.setListData((String[]) names);
         nameTf.setText((String) names[Math.max(productList.getSelectedIndex(), 0)]);
       }
+      case AbstractController.NAME -> nameTf.setText((String)item.value);
       case AbstractController.PRICE -> priceSpinner.setValue(item.value);
       case AbstractController.CODE -> codeSpinner.setValue(item.value);
       case AbstractController.QUANTITY -> quantitySpinner.setValue(item.value);
