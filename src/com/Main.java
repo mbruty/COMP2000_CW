@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class Main {
 
-  static String path = "resources/stock.csv";
-  static String header;
+  public static String STOCK_PATH = "resources/stock.csv";
+  public static String header;
   static List<ItemModel> items = new ArrayList<>();
   public static void main(String[] args) {
 
@@ -37,7 +37,7 @@ public class Main {
 
   static void readInFile(){
     try {
-      File stockFile = new File(path);
+      File stockFile = new File(STOCK_PATH);
       Scanner reader = new Scanner(stockFile);
       header = reader.nextLine() + "\n";
       while (reader.hasNextLine()) {
