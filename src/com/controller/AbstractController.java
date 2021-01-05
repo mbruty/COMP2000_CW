@@ -7,6 +7,7 @@ public abstract class AbstractController {
   public static final String PRICE = "Price";
   public static final String QUANTITY = "Quantity";
   public static final String CODE = "Code";
+  public static final String NAMES = "";
 
   public abstract void updateView(KeyValuePair items);
   public abstract void setModelProperty(KeyValuePair data);
