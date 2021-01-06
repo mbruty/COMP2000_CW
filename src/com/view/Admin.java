@@ -12,13 +12,13 @@ import java.util.Objects;
 
 public class Admin extends AbstractView {
   private JPanel mainPanel;
+  private JTabbedPane tabbedPane1;
   private JList<String> productList;
   private JTextField nameTf;
   private JButton createNewButton;
   private JButton saveChangesButton;
   private JSpinner codeSpinner;
   private JSpinner priceSpinner;
-  private JLabel currencyLbl;
   private JSpinner quantitySpinner;
   private JComboBox sortOptions;
   private JLabel fileStatusLbl;
@@ -78,9 +78,11 @@ public class Admin extends AbstractView {
             }
     );
     priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
-    SpinnerNumberModel intSpinner = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
-    codeSpinner.setModel(intSpinner);
-    quantitySpinner.setModel(intSpinner);
+    SpinnerNumberModel codeModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+    SpinnerNumberModel quantityModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+
+    codeSpinner.setModel(codeModel);
+    quantitySpinner.setModel(quantityModel);
     this.setContentPane(mainPanel);
     this.initalise();
   }
