@@ -3,6 +3,7 @@ package com.view;
 import com.KeyValuePair;
 import com.Utils.ObjectToArray;
 import com.controller.AbstractController;
+import com.controller.AdminController;
 import com.controller.StockController;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class Admin extends AbstractView {
   private JLabel fileStatusLbl;
   private JLabel valueLabel;
   private StockController controller;
+  private AdminController adminController;
 
   public Admin() {
     sortOptions.addActionListener(
@@ -112,4 +114,5 @@ public class Admin extends AbstractView {
   public void setController(AbstractController controller) {
     this.controller = (StockController) controller;
   }
+  public void setAdminController(AdminController controller) { this.adminController = controller; }
 }
