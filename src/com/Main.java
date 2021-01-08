@@ -71,9 +71,5 @@ public class Main {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    AdminModel model = new AdminModel();
-    model.setUserName("James");
-    model.hashAndSetPassword("iSimp4James");
-    users.add(model);
   }
 }
