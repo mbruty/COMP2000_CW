@@ -25,7 +25,8 @@ public class MultiAdminController extends AbstractController {
          models) {
       if(model.getUserName().equals(userName)) {
         if(model.validatePassword(password)){
-          updateView(new KeyValuePair<String>("Validate", "Validated"));
+          updateView(new KeyValuePair<AdminModel>("Validated", new AdminController(model)));
+          if (!model.isAdmin()) updateView(new KeyValuePair<Boolean>("isAdmin", false));
           return;
         } else {
           updateView(new KeyValuePair<String>("Validate", "Wrong Password"));
