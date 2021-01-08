@@ -1,0 +1,3 @@
+username,password,is an administrator
+asdf,$2a$12$MLVZAABAhYjcQ24OT5FqR.jNcMcAdWGAkdzeRkgp25s3H6vb4H9LK,true
+notaadmin,$2a$12$MLVZAABAhYjcQ24OT5FqR.jNcMcAdWGAkdzeRkgp25s3H6vb4H9LK,false
