@@ -16,6 +16,14 @@ public class AdminController extends AbstractController {
     view.setAdminController(this);
   }
 
+  public AdminController(AdminModel model) {
+    this.model = model;
+    this.model.subscribe(this);
+  }
+
+  public void setView(Admin view){
+    this.view = view;
+  }
   @Override
   public void updateView(KeyValuePair items) {
     this.view.update(items);
