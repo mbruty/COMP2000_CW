@@ -4,6 +4,7 @@ import com.KeyValuePair;
 import com.Utils.ObjectToArray;
 import com.controller.AbstractController;
 import com.controller.AdminController;
+import com.controller.MultiAdminController;
 import com.controller.StockController;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.Objects;
 
 public class Admin extends AbstractView {
   private JPanel mainPanel;
-  private JTabbedPane tabbedPane1;
+  private JTabbedPane tabbedPannel;
   private JList<String> productList;
   private JTextField nameTf;
   private JButton createNewButton;
@@ -23,9 +24,12 @@ public class Admin extends AbstractView {
   private JSpinner quantitySpinner;
   private JComboBox sortOptions;
   private JLabel fileStatusLbl;
+  private JPanel userPanel;
+  private JPanel stockPanel;
   private JLabel valueLabel;
   private StockController controller;
   private AdminController adminController;
+  private MultiAdminController multiAdminController;
 
   public Admin() {
     sortOptions.addActionListener(
@@ -114,5 +118,14 @@ public class Admin extends AbstractView {
   public void setController(AbstractController controller) {
     this.controller = (StockController) controller;
   }
-  public void setAdminController(AdminController controller) { this.adminController = controller; }
+  public void setAdminController(AdminController controller) {
+    this.setVisible(true);
+    this.adminController = controller;
+  }
+  public void setNotAdmin() {
+    tabbedPannel.removeTabAt(1);
+  }
+  public void setMultiAdminController(MultiAdminController controller) {
+    this.multiAdminController = controller;
+  }
 }
