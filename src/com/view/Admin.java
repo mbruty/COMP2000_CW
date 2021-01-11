@@ -26,6 +26,13 @@ public class Admin extends AbstractView {
   private JLabel fileStatusLbl;
   private JPanel userPanel;
   private JPanel stockPanel;
+  private JTextField userNameTf;
+  private JPasswordField passwordField;
+  private JCheckBox administratorCheckBox;
+  private JButton saveChangesButton1;
+  private JButton deleteUserButton;
+  private JList usersList;
+  private JLabel adminSaveStatus;
   private JLabel valueLabel;
   private StockController controller;
   private AdminController adminController;
@@ -39,17 +46,27 @@ public class Admin extends AbstractView {
     );
     saveChangesButton.addActionListener(
             e -> {
-              controller.writeToFile();
+              controller.writeFile();
+            }
+    );
+    saveChangesButton1.addActionListener(
+            e -> {
+              multiAdminController.writeFile();
+            }
+    );
+    administratorCheckBox.addActionListener(
+            e -> {
+              multiAdminController.setModelProperty(new KeyValuePair<Boolean>(MultiAdminController.IS_ADMIN, administratorCheckBox.isSelected()));
             }
     );
     nameTf.addActionListener(
             e -> {
-                controller.setModelProperty(new KeyValuePair<String>(AbstractController.NAME, nameTf.getText()));
+                controller.setModelProperty(new KeyValuePair<String>(StockController.NAME, nameTf.getText()));
             }
     );
     productList.addListSelectionListener(
             e -> {
-              if (!e.getValueIsAdjusting()) {
+              if (!e.getValueIsAdjusting() && this.controller != null) {
                 controller.swapModel(productList.getSelectedIndex());
               }
             }
@@ -57,7 +74,7 @@ public class Admin extends AbstractView {
     priceSpinner.addChangeListener(
             e -> {
               controller.setModelProperty(new KeyValuePair<Float>(
-                      AbstractController.PRICE,
+                      StockController.PRICE,
                       priceSpinner.getValue()
               ));
             }
@@ -65,7 +82,7 @@ public class Admin extends AbstractView {
     quantitySpinner.addChangeListener(
             e -> {
               controller.setModelProperty(new KeyValuePair<Integer>(
-                      AbstractController.QUANTITY,
+                      StockController.QUANTITY,
                       quantitySpinner.getValue()
               ));
             }
@@ -73,7 +90,7 @@ public class Admin extends AbstractView {
     codeSpinner.addChangeListener(
             e -> {
               controller.setModelProperty(new KeyValuePair<Integer>(
-                      AbstractController.CODE,
+                      StockController.CODE,
                       codeSpinner.getValue()
               ));
             }
@@ -81,6 +98,20 @@ public class Admin extends AbstractView {
     createNewButton.addActionListener(
             e -> {
               controller.newModel();
+            }
+    );
+    usersList.addListSelectionListener(e -> {
+              multiAdminController.swapModel(usersList.getSelectedIndex());
+            }
+    );
+    userNameTf.addActionListener(
+            e -> {
+              multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.USER_NAME, userNameTf.getText()));
+            }
+    );
+    passwordField.addActionListener(
+            e -> {
+              multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.PASSWORD, new String(passwordField.getPassword())));
             }
     );
     priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
@@ -100,17 +131,27 @@ public class Admin extends AbstractView {
 
   public void update(KeyValuePair item) {
     switch (item.key) {
-      case AbstractController.NAMES -> {
+      case StockController.NAMES -> {
         Object[] array =  ObjectToArray.convertToObjectArray(item.value);
         String[] names = Arrays.copyOf(array, array.length, String[].class);
-        productList.setListData((String[]) names);
-        nameTf.setText((String) names[Math.max(productList.getSelectedIndex(), 0)]);
+        productList.setListData(names);
+        nameTf.setText(names[Math.max(productList.getSelectedIndex(), 0)]);
       }
-      case AbstractController.NAME -> nameTf.setText((String)item.value);
-      case AbstractController.PRICE -> priceSpinner.setValue(item.value);
-      case AbstractController.CODE -> codeSpinner.setValue(item.value);
-      case AbstractController.QUANTITY -> quantitySpinner.setValue(item.value);
+      case StockController.NAME -> nameTf.setText((String)item.value);
+      case StockController.PRICE -> priceSpinner.setValue(item.value);
+      case StockController.CODE -> codeSpinner.setValue(item.value);
+      case StockController.QUANTITY -> quantitySpinner.setValue(item.value);
       case "FileWrite" -> fileStatusLbl.setText((String)item.value);
+      case "AdminFileWrite" -> adminSaveStatus.setText((String)item.value);
+      case MultiAdminController.USER_NAME -> userNameTf.setText((String)item.value);
+      case MultiAdminController.IS_ADMIN -> administratorCheckBox.setSelected((Boolean)item.value);
+      case MultiAdminController.USERS -> {
+        Object[] array = ObjectToArray.convertToObjectArray(item.value);
+        String[] users = Arrays.copyOf(array, array.length, String[].class);
+        usersList.setListData(users);
+        userNameTf.setText(users[Math.max(usersList.getSelectedIndex(), 0)]);
+
+      }
     }
   }
 
