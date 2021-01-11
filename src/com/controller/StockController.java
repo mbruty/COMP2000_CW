@@ -21,14 +21,18 @@ import com.view.AbstractView;
 
 public class StockController extends AbstractController {
 
-  private List<ItemModel> models;
+  public static final String NAME = "Name";
+  public static final String PRICE = "Price";
+  public static final String QUANTITY = "Quantity";
+  public static final String CODE = "Code";
+  public static final String NAMES = "";
   private final AbstractView view;
 
   IModel currentModel;
 
   private Method[] modelMethods;
 
-  public StockController(List<ItemModel> models, AbstractView view) {
+  public StockController(List<IModel> models, AbstractView view) {
     this.models = models;
     this.view = view;
 
@@ -40,41 +44,6 @@ public class StockController extends AbstractController {
     modelMethods = currentModel.getClass().getDeclaredMethods();
 
     setupModel();
-  }
-
-  public void writeToFile() {
-    // Write the header to the file
-    writeHeader();
-    for (ItemModel model:
-         models) {
-      if(!model.writeToFile()){
-        // If the write failed
-        view.update(new KeyValuePair<String>("FileWrite", "failed"));
-        return;
-      }
-    }
-    // If the write was successful, commit
-    File file = new File(Main.STOCK_PATH + ".tmp");
-    File rename = new File(Main.STOCK_PATH);
-    if(!file.renameTo(rename)){
-      view.update(new KeyValuePair<String>("FileWrite", "failed"));
-    } else {
-      view.update(new KeyValuePair<String>("FileWrite", "saved"));
-    }
-  }
-
-  private void writeHeader() {
-    try {
-      FileWriter writer = new FileWriter(Main.STOCK_PATH + ".tmp");
-      // Get the header that was saved in main
-      writer.write(Main.header);
-      writer.close();
-      view.update(new KeyValuePair<String>("FileWrite", "saved"));
-
-    } catch (IOException e) {
-      e.printStackTrace();
-      view.update(new KeyValuePair<String>("FileWrite", "failed"));
-    }
   }
 
   public void newModel() {
@@ -95,7 +64,7 @@ public class StockController extends AbstractController {
     // List.toArray() returns an object that cannot be cast to IModel[]
     ItemModel[] array = new ItemModel[models.size()];
     for (int i = 0; i < models.size(); i++) {
-      array[i] = models.get(i);
+      array[i] = (ItemModel) models.get(i);
     }
     Sort<IModel> sort = new Sort<>(array);
     switch(sortOn) {
@@ -175,13 +144,18 @@ public class StockController extends AbstractController {
     }
   }
 
+  public void writeFile() {
+    updateView(new KeyValuePair<String>("FileWrite", this.writeToFile(Main.STOCK_PATH, Main.header) ? "saved" : "failed"));
+  }
+
   @Override
   public void updateView(KeyValuePair item) {
     if(item.key.equals(NAME) || item.key.equals(NAMES)) {
       List<String> names = new ArrayList<>();
-      for (ItemModel model:
+      for (IModel model:
            models) {
-        names.add(model.getName());
+        ItemModel current = (ItemModel) model;
+        names.add(current.getName());
       }
       view.update(new KeyValuePair<String[]>(NAMES, names.toArray()));
       if(item.key.equals(NAME))
@@ -195,7 +169,6 @@ public class StockController extends AbstractController {
   @Override
   public void setModelProperty(KeyValuePair data) {
     try {
-      System.out.println(data.value);
       String methodName = "set" + data.key;
       for (Method method : modelMethods) {
         if (method.getName().equals(methodName)) {

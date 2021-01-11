@@ -6,7 +6,7 @@ import com.view.AbstractView;
 import com.view.Admin;
 
 public class AdminController extends AbstractController {
-  private AdminModel model;
+  private final AdminModel model;
   private Admin view;
 
   public AdminController(AdminModel model, Admin view) {
@@ -31,6 +31,12 @@ public class AdminController extends AbstractController {
 
   @Override
   public void setModelProperty(KeyValuePair data) {
+
+  }
+
+  // File writing is handled by the multi admin controller
+  @Override
+  public void writeFile() {
 
   }
 }
