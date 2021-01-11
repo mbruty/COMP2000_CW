@@ -46,7 +46,6 @@ public class StartupForm extends AbstractView {
         AdminController newController = (AdminController) item.value;
         newController.setView(admin);
         admin.setAdminController(newController);
-        this.setVisible(false);
       }
       case "isAdmin" -> admin.setNotAdmin();
       case "Validated admin" -> {
