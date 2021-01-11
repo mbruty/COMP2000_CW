@@ -47,29 +47,19 @@ public class Admin extends AbstractView {
             e ->  multiAdminController.newModel()
     );
     sortOptions.addActionListener(
-            e -> {
-              controller.sortModels((String) Objects.requireNonNull(sortOptions.getSelectedItem()));
-            }
+            e ->controller.sortModels((String) Objects.requireNonNull(sortOptions.getSelectedItem()))
     );
     saveChangesButton.addActionListener(
-            e -> {
-              controller.writeFile();
-            }
+            e -> controller.writeFile()
     );
     saveChangesButton1.addActionListener(
-            e -> {
-              multiAdminController.writeFile();
-            }
+            e ->  multiAdminController.writeFile()
     );
     administratorCheckBox.addActionListener(
-            e -> {
-              multiAdminController.setModelProperty(new KeyValuePair<Boolean>(MultiAdminController.IS_ADMIN, administratorCheckBox.isSelected()));
-            }
+            e -> multiAdminController.setModelProperty(new KeyValuePair<Boolean>(MultiAdminController.IS_ADMIN, administratorCheckBox.isSelected()))
     );
     nameTf.addActionListener(
-            e -> {
-                controller.setModelProperty(new KeyValuePair<String>(StockController.NAME, nameTf.getText()));
-            }
+            e -> controller.setModelProperty(new KeyValuePair<String>(StockController.NAME, nameTf.getText()))
     );
     productList.addListSelectionListener(
             e -> {
@@ -103,23 +93,16 @@ public class Admin extends AbstractView {
             }
     );
     createNewButton.addActionListener(
-            e -> {
-              controller.newModel();
-            }
+            e -> controller.newModel()
     );
-    usersList.addListSelectionListener(e -> {
-              multiAdminController.swapModel(usersList.getSelectedIndex());
-            }
+    usersList.addListSelectionListener(
+            e -> multiAdminController.swapModel(usersList.getSelectedIndex())
     );
     userNameTf.addActionListener(
-            e -> {
-              multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.USER_NAME, userNameTf.getText()));
-            }
+            e -> multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.USER_NAME, userNameTf.getText()))
     );
     passwordField.addActionListener(
-            e -> {
-              multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.PASSWORD, new String(passwordField.getPassword())));
-            }
+            e -> multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.PASSWORD, new String(passwordField.getPassword())))
     );
     priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
     SpinnerNumberModel codeModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
