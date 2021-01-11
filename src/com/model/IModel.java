@@ -7,4 +7,5 @@ public interface IModel {
   void subscribe(AbstractController observer);
   void unSubscribe(AbstractController observer);
   void onChange(KeyValuePair item);
+  boolean writeToFile();
 }
