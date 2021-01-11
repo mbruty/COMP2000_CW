@@ -33,12 +33,16 @@ public class Admin extends AbstractView {
   private JButton deleteUserButton;
   private JList usersList;
   private JLabel adminSaveStatus;
+  private JButton newUserButton;
   private JLabel valueLabel;
   private StockController controller;
   private AdminController adminController;
   private MultiAdminController multiAdminController;
 
   public Admin() {
+    newUserButton.addActionListener(
+            e ->  multiAdminController.newModel()
+    );
     sortOptions.addActionListener(
             e -> {
               controller.sortModels((String) Objects.requireNonNull(sortOptions.getSelectedItem()));
@@ -143,6 +147,10 @@ public class Admin extends AbstractView {
       case StockController.QUANTITY -> quantitySpinner.setValue(item.value);
       case "FileWrite" -> fileStatusLbl.setText((String)item.value);
       case "AdminFileWrite" -> adminSaveStatus.setText((String)item.value);
+      case "NewItem" -> {
+        usersList.setSelectedIndex(0);
+        productList.setSelectedIndex(0);
+      }
       case MultiAdminController.USER_NAME -> userNameTf.setText((String)item.value);
       case MultiAdminController.IS_ADMIN -> administratorCheckBox.setSelected((Boolean)item.value);
       case MultiAdminController.USERS -> {

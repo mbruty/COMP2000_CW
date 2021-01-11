@@ -26,7 +26,11 @@ public class AdminModel implements IModel{
     this.isAdmin = Boolean.parseBoolean(items[2]);
   }
 
-  public AdminModel() { }
+  public AdminModel() {
+    this.userName = "New User";
+    this.password = "";
+    this.isAdmin = false;
+  }
 
   @Override
   public void subscribe(AbstractController observer) {

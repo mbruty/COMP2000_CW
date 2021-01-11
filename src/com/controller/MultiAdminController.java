@@ -33,30 +33,6 @@ public class MultiAdminController extends AbstractController {
     currentModel.subscribe(this);
   }
 
-  public void writeToFile() {
-    // Write the header to the file
-    if(!writeHeader(Main.ADMIN_PATH, Main.adminHeader)){
-      view.update(new KeyValuePair<String>("FileWrite", "failed"));
-      return;
-    }
-    for (IModel model:
-            models) {
-      if(!model.writeToFile()){
-        // If the write failed
-        view.update(new KeyValuePair<String>("FileWrite", "failed"));
-        return;
-      }
-    }
-    // If the write was successful, commit
-    File file = new File(Main.STOCK_PATH + ".tmp");
-    File rename = new File(Main.STOCK_PATH);
-    if(!file.renameTo(rename)){
-      view.update(new KeyValuePair<String>("FileWrite", "failed"));
-    } else {
-      view.update(new KeyValuePair<String>("FileWrite", "saved"));
-    }
-  }
-
   public void checkLogin(String userName, String password) {
     for (IModel model:
          models) {
@@ -86,6 +62,18 @@ public class MultiAdminController extends AbstractController {
       userNames.add(current.getUserName());
     }
     updateView(new KeyValuePair<List<String>>(USERS, userNames.toArray()));
+  }
+
+  public void newModel() {
+    //Create new empty model
+    models.add(0, new AdminModel());
+    // Update views with the new information
+    updateView(new KeyValuePair<String>(USER_NAME, "New Item"));
+    // Reload view with new data
+    setupModel();
+    // Trigger the view to set the selected index to 0
+    updateView(new KeyValuePair("NewItem", null));
+
   }
 
   public void setupModel() {
