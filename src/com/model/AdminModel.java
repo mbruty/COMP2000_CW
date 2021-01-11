@@ -1,14 +1,19 @@
 package com.model;
 
 import com.KeyValuePair;
+import com.Main;
 import com.controller.AbstractController;
+import com.controller.AdminController;
+import com.controller.MultiAdminController;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminModel implements IModel{
-  private List<AbstractController> observers = new ArrayList<>();
+  private final List<AbstractController> observers = new ArrayList<>();
 
   private String userName;
   private String password;
@@ -41,12 +46,27 @@ public class AdminModel implements IModel{
     }
   }
 
+  @Override
+  public boolean writeToFile() {
+    try {
+      // Write in append mode
+      FileWriter writer = new FileWriter(Main.ADMIN_PATH + ".tmp", true);
+      writer.write(this.userName + ',' + this.password + ',' + String.valueOf(this.isAdmin) + '\n');
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
   public String getUserName() {
     return userName;
   }
 
   public void setUserName(String userName) {
     this.userName = userName;
+    onChange(new KeyValuePair<String>(MultiAdminController.USER_NAME,this.userName));
   }
 
   public String getPassword() {
@@ -54,17 +74,14 @@ public class AdminModel implements IModel{
   }
 
   public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void hashAndSetPassword(String password)  {
     this.password = BCrypt.hashpw(password, BCrypt.gensalt(12));
+    onChange(new KeyValuePair<String>(MultiAdminController.PASSWORD, this.password));
   }
 
   public boolean validatePassword(String password) {
     return BCrypt.checkpw(password, this.password);
   }
-  public boolean isAdmin() {
+  public boolean getAdmin() {
     return isAdmin;
   }
 
