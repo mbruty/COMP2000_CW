@@ -53,10 +53,8 @@ public class StockController extends AbstractController {
     updateView(new KeyValuePair<String>(NAME, "New Item"));
     // Update the view with the new NAMES list
     updateView(new KeyValuePair<String>(NAMES, null));
-    // Update the view with the 0 values
-    updateView(new KeyValuePair<Float>(PRICE, 0.0f));
-    updateView(new KeyValuePair<Integer>(QUANTITY, 0));
-    updateView(new KeyValuePair<Integer>(CODE, 0));
+    updateView(new KeyValuePair("NewItem", null));
+    setupModel();
   }
 
   public void sortModels(String sortOn) {
