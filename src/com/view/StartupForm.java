@@ -15,7 +15,7 @@ public class StartupForm extends AbstractView {
   private JTextField userNameTf;
   private JLabel errorTxt;
   private MultiAdminController controller;
-  private Admin admin;
+  private final Admin admin;
 
   public StartupForm(Admin admin, AbstractView pointOfSale) {
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -36,19 +36,25 @@ public class StartupForm extends AbstractView {
     });
     pointOfSalesButton.addActionListener(e -> {
       pointOfSale.setVisible(true);
-      this.setVisible(false);
     });
   }
   @Override
   public void update(KeyValuePair item) {
-    if (item.key.equals("Validate")) {
-      errorTxt.setText((String) item.value);
-    } else if (item.key.equals("Validated")) {
-      AdminController newController = (AdminController) item.value;
-      newController.setView(admin);
-      admin.setAdminController(newController);
-    } else if (item.key.equals("isAdmin")) {
-      admin.setNotAdmin();
+    switch (item.key) {
+      case "Validate" -> errorTxt.setText((String) item.value);
+      case "Validated" -> {
+        AdminController newController = (AdminController) item.value;
+        newController.setView(admin);
+        admin.setAdminController(newController);
+        this.setVisible(false);
+      }
+      case "isAdmin" -> admin.setNotAdmin();
+      case "Validated admin" -> {
+        MultiAdminController newMultiController = (MultiAdminController) item.value;
+        newMultiController.setView(admin);
+        admin.setMultiAdminController((newMultiController));
+        newMultiController.setupModel();
+      }
     }
   }
 
