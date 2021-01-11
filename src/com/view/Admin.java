@@ -31,7 +31,7 @@ public class Admin extends AbstractView {
   private JCheckBox administratorCheckBox;
   private JButton saveChangesButton1;
   private JButton deleteUserButton;
-  private JList usersList;
+  private JList<String> usersList;
   private JLabel adminSaveStatus;
   private JButton newUserButton;
   private JLabel valueLabel;
@@ -40,6 +40,9 @@ public class Admin extends AbstractView {
   private MultiAdminController multiAdminController;
 
   public Admin() {
+    deleteUserButton.addActionListener(
+            e -> multiAdminController.delete()
+    );
     newUserButton.addActionListener(
             e ->  multiAdminController.newModel()
     );

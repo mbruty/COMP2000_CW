@@ -4,12 +4,8 @@ import com.KeyValuePair;
 import com.Main;
 import com.model.AdminModel;
 import com.model.IModel;
-import com.model.ItemModel;
 import com.view.AbstractView;
-import com.view.Admin;
 
-import javax.swing.table.AbstractTableModel;
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,14 @@ public class MultiAdminController extends AbstractController {
     currentModel = models.get(0);
     modelMethods = currentModel.getClass().getDeclaredMethods();
     currentModel.subscribe(this);
+  }
+
+  public void delete(){
+    this.models.remove(this.currentModel);
+    currentModel = models.get(0);
+    setupModel();
+    // We want to write the deletion straight to file
+    writeFile();
   }
 
   public void checkLogin(String userName, String password) {
