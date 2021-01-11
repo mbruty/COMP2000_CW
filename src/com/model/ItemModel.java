@@ -3,6 +3,7 @@ package com.model;
 import com.KeyValuePair;
 import com.Main;
 import com.controller.AbstractController;
+import com.controller.StockController;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,22 +76,22 @@ public class ItemModel implements IModel{
 
   public void setName(String name) {
     this.name = name;
-    onChange(new KeyValuePair<String>(AbstractController.NAME, name));
+    onChange(new KeyValuePair<String>(StockController.NAME, name));
   }
 
   public void setPrice(double price) {
     this.price = (float) price;
-    onChange(new KeyValuePair<Float>(AbstractController.PRICE, price));
+    onChange(new KeyValuePair<Float>(StockController.PRICE, price));
   }
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
-    onChange(new KeyValuePair<Integer>(AbstractController.QUANTITY, quantity));
+    onChange(new KeyValuePair<Integer>(StockController.QUANTITY, quantity));
   }
 
   public void setCode(int code) {
     this.code = code;
-    onChange(new KeyValuePair<Integer>(AbstractController.CODE, code));
+    onChange(new KeyValuePair<Integer>(StockController.CODE, code));
   }
 
   public boolean writeToFile() {
