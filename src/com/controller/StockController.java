@@ -7,17 +7,13 @@ import com.Utils.SortItemsOnName;
 import com.Utils.SortItemsOnPrice;
 import com.Utils.SortItemsOnQuantity;
 import com.model.IModel;
+import com.model.ItemModel;
+import com.view.AbstractView;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.model.ItemModel;
-import com.view.AbstractView;
 
 public class StockController extends AbstractController {
 
@@ -46,6 +42,15 @@ public class StockController extends AbstractController {
     setupModel();
   }
 
+  public ItemModel getItemByCode(int code) throws Exception {
+    for (IModel model:
+         models) {
+      ItemModel itemModel = (ItemModel) model;
+      if(itemModel.getCode() == code )
+        return itemModel;
+    }
+    throw new Exception("Not found");
+  }
   public void newModel() {
     //Create new empty model
     models.add(0, new ItemModel("New Item", 0.0f, 0, 0));
