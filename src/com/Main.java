@@ -31,6 +31,8 @@ public class Main {
     Admin adminForm = new Admin();
     PointOfSale pointOfSaleForm = new PointOfSale();
     StartupForm form = new StartupForm(adminForm, pointOfSaleForm);
+    new StockController(items, adminForm);
+    new StockController(items, pointOfSaleForm);
     form.setController(new MultiAdminController(users, form));
     form.setVisible(true);
 
