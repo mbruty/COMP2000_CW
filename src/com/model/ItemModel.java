@@ -58,6 +58,15 @@ public class ItemModel implements IModel{
     }
   }
 
+  public ItemModel clone() {
+    ItemModel newModel = new ItemModel();
+    newModel.setName(this.name);
+    newModel.setCode(this.code);
+    newModel.setPrice(this.price);
+    // We're cloning in CartController, so this will be set to 1
+    newModel.setQuantity(1);
+    return newModel;
+  }
   public String getName() {
     return name;
   }
