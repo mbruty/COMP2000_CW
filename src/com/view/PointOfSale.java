@@ -67,6 +67,9 @@ public class PointOfSale extends AbstractView {
       case "TransactionComplete" -> {
         this.cartController.craftRecipt();
         new Receipt();
+        stockController.updateStock(
+                cartController.getCart()
+        );
         cartController.reset();
         this.update(new KeyValuePair<String[]>(CART_LIST, new String[]{}));
         this.update(new KeyValuePair<Float>(TOTAL, 0f));

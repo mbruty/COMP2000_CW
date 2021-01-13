@@ -61,6 +61,25 @@ public class StockController extends AbstractController {
     updateView(new KeyValuePair("NewItem", null));
     setupModel();
   }
+  
+  public void updateStock(List<IModel> cart) {
+    for (IModel model:
+         cart) {
+      ItemModel item = (ItemModel) model;
+      try {
+        ItemModel stockItem = getItemByCode(item.getCode());
+        stockItem.setQuantity(
+                stockItem.getQuantity() - item.getQuantity()
+        );
+      } catch (Exception e) {
+        // As the items are duplicated from the stock model, this should never error
+        e.printStackTrace();
+        return;
+      }
+    }
+    this.writeToFile(Main.STOCK_PATH, Main.header);
+
+  }
 
   public void sortModels(String sortOn) {
     // Convert the list to array

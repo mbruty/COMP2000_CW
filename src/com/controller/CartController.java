@@ -36,6 +36,8 @@ public class CartController extends AbstractController {
     this.updateView(new KeyValuePair<>(null, null));
   }
 
+  public List<IModel> getCart() { return this.models; }
+
   public void reset() {
     this.models = new ArrayList<>();
   }
