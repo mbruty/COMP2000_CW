@@ -1,6 +1,7 @@
 package com.receipt;
 
 import com.Main;
+import com.Utils.ChangeToString;
 import com.model.ItemModel;
 import com.payment.PaymentContext;
 
@@ -14,7 +15,7 @@ public class Receipt {
   private final float price;
   private final List<ItemModel> itemsBought;
   private final float amountPaid;
-  private final float changeGiven;
+  private final List<Integer>  changeGiven;
 
   public Receipt(ReceiptBuilder builder) {
     this.isCard = builder.getIsCard();
@@ -47,7 +48,9 @@ public class Receipt {
     }
     if(isCash) {
       receipt.append("Cash Paid: ").append(amountPaid).append("\n");
-      receipt.append("Change Given: ").append(changeGiven).append("\n");
+      receipt.append("Dispensing Change: \n")
+              .append(ChangeToString.convert(changeGiven))
+              .append("\n");
     }
     receipt.append("Total: ").append(price);
 
@@ -61,7 +64,7 @@ public class Receipt {
     private float price;
     private List<ItemModel> itemsBought;
     private float amountPaid;
-    private float changeGiven;
+    private List<Integer> changeGiven;
 
     public ReceiptBuilder() { }
 
@@ -88,12 +91,12 @@ public class Receipt {
       return this;
     }
 
-    public ReceiptBuilder setAmountPai(float amount) {
+    public ReceiptBuilder setAmountPaid(float amount) {
       this.amountPaid = amount;
       return this;
     }
 
-    public ReceiptBuilder setChangeGiven(float change) {
+    public ReceiptBuilder setChangeGiven(List<Integer> change) {
       this.changeGiven = change;
       return this;
     }
@@ -111,7 +114,7 @@ public class Receipt {
     public boolean getIsCash() { return isCash; }
 
     public float getAmountPaid() { return amountPaid; }
-    public float getChangeGiven() { return changeGiven; }
+    public List<Integer>  getChangeGiven() { return changeGiven; }
 
     public PaymentContext.cardType getCardType() { return cardType; }
 

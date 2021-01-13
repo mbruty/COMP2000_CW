@@ -5,10 +5,14 @@ import com.Utils.ObjectToArray;
 import com.controller.AbstractController;
 import com.controller.CartController;
 import com.controller.StockController;
+import com.payment.Cash;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+
+import static com.controller.CartController.CART_LIST;
+import static com.controller.CartController.TOTAL;
 
 public class PointOfSale extends AbstractView {
   private JPanel mainPanel;
@@ -25,6 +29,7 @@ public class PointOfSale extends AbstractView {
   private float currentTotal = 0f;
   public PointOfSale() {
     this.setContentPane(mainPanel);
+    payWithCashButton.addActionListener( e -> new CashPayment(currentTotal).addActionListener(this));
     payWithCardButton.addActionListener(
             e -> new CardPayment(currentTotal).addActionListener(this)
     );
@@ -50,14 +55,21 @@ public class PointOfSale extends AbstractView {
   @Override
   public void update(KeyValuePair item) {
     switch (item.key) {
-      case CartController.CART_LIST -> {
+      case CART_LIST -> {
         Object[] array =  ObjectToArray.convertToObjectArray(item.value);
         String[] cart = Arrays.copyOf(array, array.length, String[].class);
         list1.setListData(cart);
       }
-      case CartController.TOTAL -> {
+      case TOTAL -> {
         totalLbl.setText("Total: " + item.value);
         this.currentTotal = (float) item.value;
+      }
+      case "TransactionComplete" -> {
+        this.cartController.craftRecipt();
+        new Receipt();
+        cartController.reset();
+        this.update(new KeyValuePair<String[]>(CART_LIST, new String[]{}));
+        this.update(new KeyValuePair<Float>(TOTAL, 0f));
       }
     }
   }
@@ -67,7 +79,4 @@ public class PointOfSale extends AbstractView {
     this.stockController = (StockController) controller;
   }
 
-  public void setCartController(AbstractController controller) {
-
-  }
 }
