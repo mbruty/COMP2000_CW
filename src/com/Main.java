@@ -20,6 +20,7 @@ public class Main {
 
   public final static String STOCK_PATH = "resources/stock.csv";
   public final static String ADMIN_PATH = "resources/users.csv";
+  public final static String COMPANY_NAME = "Bruty's Bakery";
   public static String header;
   public static String adminHeader;
   static List<IModel> items = new ArrayList<>();
