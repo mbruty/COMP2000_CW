@@ -3,6 +3,7 @@ package com.controller;
 import com.KeyValuePair;
 import com.model.IModel;
 import com.model.ItemModel;
+import com.receipt.ReceiptSingleton;
 import com.view.AbstractView;
 
 import java.lang.reflect.Method;
@@ -33,6 +34,23 @@ public class CartController extends AbstractController {
     cloned.subscribe(this);
     this.models.add(cloned);
     this.updateView(new KeyValuePair<>(null, null));
+  }
+
+  public void reset() {
+    this.models = new ArrayList<>();
+  }
+
+  public void craftRecipt() {
+    float total = 0;
+    List<ItemModel> itemModels = new ArrayList<>();
+    for (IModel model:
+            models) {
+      ItemModel current = (ItemModel) model;
+      total += current.getPrice() * current.getQuantity();
+      itemModels.add(current);
+    }
+    ReceiptSingleton.getInstance().getBuilder().setPrice(total);
+    ReceiptSingleton.getInstance().getBuilder().setItemsBought(itemModels);
   }
 
   @Override
