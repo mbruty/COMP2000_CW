@@ -6,6 +6,7 @@ import com.payment.AmericanExpress;
 import com.payment.MasterCard;
 import com.payment.PaymentContext;
 import com.payment.Visa;
+import com.receipt.ReceiptSingleton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class CardPayment extends AbstractView {
   public CardPayment(float price) {
     this.setContentPane(mainPanel);
     this.listeners = new ArrayList<>();
+    cancelButton.addActionListener( e -> this.dispose());
     submitButton.addActionListener(
             e -> {
               boolean result = false;
@@ -33,18 +35,30 @@ public class CardPayment extends AbstractView {
                 case VISA -> {
                   Visa visa = new Visa();
                   result = visa.runPayment(price);
+                  ReceiptSingleton.getInstance().getBuilder().setCardType(PaymentContext.cardType.VISA);
                 }
                 case MASTER_CARD -> {
                   MasterCard masterCard = new MasterCard();
                   result = masterCard.runPayment(price);
+                  ReceiptSingleton.getInstance().getBuilder().setCardType(PaymentContext.cardType.MASTER_CARD);
+
                 }
                 case AMERICAN_EXPRESS -> {
                   AmericanExpress americanExpress = new AmericanExpress();
                   result = americanExpress.runPayment(price);
+                  ReceiptSingleton.getInstance().getBuilder().setCardType(PaymentContext.cardType.AMERICAN_EXPRESS);
+
                 }
                 default -> errorText.setText("Invalid card");
               }
-              if(result) this.dispose();
+              if(result) {
+                ReceiptSingleton.getInstance().getBuilder().setIsUsingCard();
+                for (AbstractView view:
+                     listeners) {
+                  view.update(new KeyValuePair<Boolean>("TransactionComplete", true));
+                  this.dispose();
+                }
+              }
               else errorText.setText("Error processing payment");
 
             }
@@ -52,7 +66,7 @@ public class CardPayment extends AbstractView {
     this.initalise();
     // Round the float to 2 decimal places and set the amount due text to that
     this.setVisible(true);
-    this.setPreferredSize(new Dimension(200, 200));
+    this.setPreferredSize(new Dimension(350, 200));
 
     amountDueLabel.setText("Amount due: " + Math.round(price * 100f) / 100f );
   }
