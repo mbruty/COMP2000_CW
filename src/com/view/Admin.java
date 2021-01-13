@@ -8,6 +8,7 @@ import com.controller.MultiAdminController;
 import com.controller.StockController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Objects;
@@ -111,6 +112,7 @@ public class Admin extends AbstractView {
     codeSpinner.setModel(codeModel);
     quantitySpinner.setModel(quantityModel);
     this.setContentPane(mainPanel);
+    this.setPreferredSize(new Dimension(800, 600));
     this.initalise();
   }
 
