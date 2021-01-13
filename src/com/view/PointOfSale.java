@@ -7,6 +7,7 @@ import com.controller.CartController;
 import com.controller.StockController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 
 public class PointOfSale extends AbstractView {
@@ -15,13 +16,18 @@ public class PointOfSale extends AbstractView {
   private JLabel cartLabel;
   private JTextField enterItemCodeTextField;
   private JButton addToCartButton;
-  private JButton checkoutButton;
+  private JButton payWithCardButton;
   private JLabel errorTxtLbl;
   private JLabel totalLbl;
+  private JButton payWithCashButton;
   private StockController stockController;
   private CartController cartController;
+  private float currentTotal = 0f;
   public PointOfSale() {
     this.setContentPane(mainPanel);
+    payWithCardButton.addActionListener(
+            e -> new CardPayment(currentTotal).addActionListener(this)
+    );
     this.addToCartButton.addActionListener(
             e -> {
               try {
@@ -36,7 +42,9 @@ public class PointOfSale extends AbstractView {
             }
     );
     this.cartController = new CartController(this);
+    this.setPreferredSize(new Dimension(500, 600));
     this.initalise();
+
   }
 
   @Override
@@ -47,7 +55,10 @@ public class PointOfSale extends AbstractView {
         String[] cart = Arrays.copyOf(array, array.length, String[].class);
         list1.setListData(cart);
       }
-      case CartController.TOTAL -> totalLbl.setText("Total: " + item.value);
+      case CartController.TOTAL -> {
+        totalLbl.setText("Total: " + item.value);
+        this.currentTotal = (float) item.value;
+      }
     }
   }
 
