@@ -11,7 +11,6 @@ public abstract class AbstractView extends JFrame {
 
   protected void initalise(){
     this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    this.setPreferredSize(new Dimension(900, 600));
     this.pack();
     this.center();
     this.setVisible(false);
