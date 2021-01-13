@@ -82,7 +82,7 @@ public class CashPayment extends AbstractView{
       if(currentPaid < due) {
         priceLbl.setText("£" + (due - currentPaid));
       } else {
-        priceLbl.setText("");
+        priceLbl.setText("Complete!");
       }
     }
   }
