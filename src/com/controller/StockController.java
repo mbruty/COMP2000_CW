@@ -182,6 +182,10 @@ public class StockController extends AbstractController {
     updateView(new KeyValuePair<String>("FileWrite", this.writeToFile(Main.STOCK_PATH, Main.header) ? "saved" : "failed"));
   }
 
+  public void writeFile(String header) {
+    updateView(new KeyValuePair<String>("FileWrite", this.writeToFile(Main.STOCK_PATH, header) ? "saved" : "failed"));
+  }
+
   @Override
   public void updateView(KeyValuePair item) {
     if(item.key.equals(NAME) || item.key.equals(NAMES)) {

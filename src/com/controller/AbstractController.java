@@ -26,7 +26,6 @@ public abstract class AbstractController {
       writer.close();
       return true;
     } catch (IOException e) {
-      e.printStackTrace();
       return false;
     }
   }
