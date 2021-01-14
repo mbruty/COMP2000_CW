@@ -6,6 +6,7 @@ import com.controller.AbstractController;
 import com.controller.CartController;
 import com.controller.StockController;
 import com.payment.Cash;
+import com.receipt.ReceiptSingleton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,6 +72,7 @@ public class PointOfSale extends AbstractView {
                 cartController.getCart()
         );
         cartController.reset();
+        ReceiptSingleton.reset();
         this.update(new KeyValuePair<String[]>(CART_LIST, new String[]{}));
         this.update(new KeyValuePair<Float>(TOTAL, 0f));
       }
