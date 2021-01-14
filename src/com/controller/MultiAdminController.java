@@ -126,7 +126,11 @@ public class MultiAdminController extends AbstractController {
 
   @Override
   public void writeFile() {
-    updateView(new KeyValuePair<String>("AdminFileWrite", this.writeToFile(Main.ADMIN_PATH, Main.adminHeader) ? "saved" : "failed"));
+    updateView(new KeyValuePair<String>("AdminFileWrite", this.tryWriteFile()  ? "saved" : "failed"));
+  }
+
+  public boolean tryWriteFile() {
+    return this.writeToFile(Main.ADMIN_PATH, Main.adminHeader);
   }
 
   @Override
