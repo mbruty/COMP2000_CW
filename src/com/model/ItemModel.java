@@ -16,6 +16,7 @@ public class ItemModel implements IModel{
   private float price;
   private int quantity;
   private int code;
+  private int orderQuantity;
 
   public ItemModel (String commaDelimitedLine) {
     String[] items = commaDelimitedLine.split(",");
@@ -24,16 +25,18 @@ public class ItemModel implements IModel{
       quantity = Integer.parseInt(items[1]);
       code = Integer.parseInt(items[2]);
       price = Float.parseFloat(items[3]);
+      orderQuantity = Integer.parseInt(items[4]);
     } catch (NumberFormatException e) {
       e.printStackTrace();
     }
   }
 
-  public ItemModel(String name, float price, int quantity, int code) {
+  public ItemModel(String name, float price, int quantity, int code, int orderQuantity) {
     this.name = name;
     this.price = price;
     this.quantity = quantity;
     this.code = code;
+    this.orderQuantity = orderQuantity;
   }
 
   public ItemModel () {
@@ -83,6 +86,13 @@ public class ItemModel implements IModel{
     return code;
   }
 
+  public int getOrderQuantity( ) {return orderQuantity; }
+
+  public void setOrderQuantity(int quantity) {
+    this.orderQuantity = quantity;
+    onChange(new KeyValuePair<Integer>(StockController.ORDER_QUANTITY, quantity));
+  }
+
   public void setName(String name) {
     this.name = name;
     onChange(new KeyValuePair<String>(StockController.NAME, name));
@@ -107,7 +117,7 @@ public class ItemModel implements IModel{
     try {
       // Write in append mode
       FileWriter writer = new FileWriter(Main.STOCK_PATH + ".tmp", true);
-      writer.write(this.name + ',' + this.quantity + ',' + this.code + ',' + this.price + '\n');
+      writer.write(this.name + ',' + this.quantity + ',' + this.code + ',' + this.price + ',' + this.orderQuantity + '\n');
       writer.close();
     } catch (IOException e) {
       e.printStackTrace();

@@ -21,7 +21,9 @@ public class StockController extends AbstractController {
   public static final String PRICE = "Price";
   public static final String QUANTITY = "Quantity";
   public static final String CODE = "Code";
+  public static final String ORDER_QUANTITY = "OrderQuantity";
   public static final String NAMES = "";
+  public static final String LOW_QUANTITY = "lowQuantity";
   private final AbstractView view;
 
   IModel currentModel;
@@ -53,7 +55,7 @@ public class StockController extends AbstractController {
   }
   public void newModel() {
     //Create new empty model
-    models.add(0, new ItemModel("New Item", 0.0f, 0, 0));
+    models.add(0, new ItemModel("New Item", 0.0f, 0, 0, 0));
     // Update views with the new information
     updateView(new KeyValuePair<String>(NAME, "New Item"));
     // Update the view with the new NAMES list
@@ -159,6 +161,10 @@ public class StockController extends AbstractController {
             Object value = method.invoke(currentModel);
             updateView(new KeyValuePair<>(CODE, value));
           }
+          case "get" + ORDER_QUANTITY -> {
+            Object value = method.invoke(currentModel);
+            updateView(new KeyValuePair<Integer>(ORDER_QUANTITY, value));
+          }
         }
       }
     } catch (Exception ex) {
@@ -182,6 +188,16 @@ public class StockController extends AbstractController {
       view.update(new KeyValuePair<String[]>(NAMES, names.toArray()));
       if(item.key.equals(NAME))
         view.update(new KeyValuePair<String>(NAME, item.value));
+    } else if(item.key.equals(QUANTITY)) {
+      List<String> lowQuantity = new ArrayList<>();
+      for (IModel model:
+              models) {
+        ItemModel current = (ItemModel) model;
+        if(current.getQuantity() < 10) {
+          lowQuantity.add(current.getName());
+        }
+      }
+      view.update(new KeyValuePair<String[]>(LOW_QUANTITY, lowQuantity.toArray()));
     } else {
       view.update(item);
 

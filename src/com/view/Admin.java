@@ -9,13 +9,12 @@ import com.controller.StockController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class Admin extends AbstractView {
   private JPanel mainPanel;
-  private JTabbedPane tabbedPannel;
+  private JTabbedPane tabbedPanel;
   private JList<String> productList;
   private JTextField nameTf;
   private JButton createNewButton;
@@ -35,6 +34,9 @@ public class Admin extends AbstractView {
   private JList<String> usersList;
   private JLabel adminSaveStatus;
   private JButton newUserButton;
+  private JButton setAsDeliveredButton;
+  private JSpinner orderQuantitySpinner;
+  private JList<String> lowStockList;
   private JLabel valueLabel;
   private StockController controller;
   private AdminController adminController;
@@ -105,6 +107,16 @@ public class Admin extends AbstractView {
     passwordField.addActionListener(
             e -> multiAdminController.setModelProperty(new KeyValuePair<String>(MultiAdminController.PASSWORD, new String(passwordField.getPassword())))
     );
+    orderQuantitySpinner.addChangeListener(
+            e -> controller.setModelProperty(new KeyValuePair<Integer>(StockController.ORDER_QUANTITY, orderQuantitySpinner.getValue()))
+    );
+    setAsDeliveredButton.addActionListener(
+            e -> {
+              int total = ((int) orderQuantitySpinner.getValue()) + ((int) quantitySpinner.getValue());
+              controller.setModelProperty(new KeyValuePair<Integer>(StockController.QUANTITY, total));
+              controller.setModelProperty(new KeyValuePair<Integer>(StockController.ORDER_QUANTITY, 0));
+            }
+    );
     priceSpinner.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.01));
     SpinnerNumberModel codeModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
     SpinnerNumberModel quantityModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
@@ -132,7 +144,13 @@ public class Admin extends AbstractView {
       case StockController.NAME -> nameTf.setText((String)item.value);
       case StockController.PRICE -> priceSpinner.setValue(item.value);
       case StockController.CODE -> codeSpinner.setValue(item.value);
+      case StockController.ORDER_QUANTITY -> orderQuantitySpinner.setValue(item.value);
       case StockController.QUANTITY -> quantitySpinner.setValue(item.value);
+      case StockController.LOW_QUANTITY -> {
+        Object[] array =  ObjectToArray.convertToObjectArray(item.value);
+        String[] names = Arrays.copyOf(array, array.length, String[].class);
+        lowStockList.setListData(names);
+      }
       case "FileWrite" -> fileStatusLbl.setText((String)item.value);
       case "AdminFileWrite" -> adminSaveStatus.setText((String)item.value);
       case "NewItem" -> {
@@ -146,7 +164,6 @@ public class Admin extends AbstractView {
         String[] users = Arrays.copyOf(array, array.length, String[].class);
         usersList.setListData(users);
         userNameTf.setText(users[Math.max(usersList.getSelectedIndex(), 0)]);
-
       }
     }
   }
@@ -160,7 +177,7 @@ public class Admin extends AbstractView {
     this.adminController = controller;
   }
   public void setNotAdmin() {
-    tabbedPannel.removeTabAt(1);
+    tabbedPanel.removeTabAt(1);
   }
   public void setMultiAdminController(MultiAdminController controller) {
     this.multiAdminController = controller;
