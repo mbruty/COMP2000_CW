@@ -2,6 +2,9 @@
 Example user:
 username: JHayter
 password: i<3java
+
+## Example video
+![YouTube video](https://img.youtube.com/vi/XPf_iRu9kAI/0.jpg)https://www.youtube.com/watch?v=XPf_iRu9kAI
 ## Patterns used:
 MVC
 Observer
