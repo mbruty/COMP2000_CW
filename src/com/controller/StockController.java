@@ -26,7 +26,7 @@ public class StockController extends AbstractController {
   public static final String LOW_QUANTITY = "lowQuantity";
   private final AbstractView view;
 
-  IModel currentModel;
+  private IModel currentModel;
 
   private Method[] modelMethods;
 
@@ -198,6 +198,7 @@ public class StockController extends AbstractController {
         }
       }
       view.update(new KeyValuePair<String[]>(LOW_QUANTITY, lowQuantity.toArray()));
+      view.update(item);
     } else {
       view.update(item);
 
