@@ -1,1 +1,13 @@
-COMP2000_CW
+# COMP2000 Project
+## Patterns used:
+MVC
+Observer
+Strategy
+Singleton
+Builder
+Template
+## Dependencies
+JBcrypt
+
+## Class Diagram
+![Class Diagram](https://raw.githubusercontent.com/mbruty/COMP2000_CW/main/COMP2000%20Class%20Diagram.png?token=ANXUVG3HC2QM4HLEGHUNJO3ABGIOI)
