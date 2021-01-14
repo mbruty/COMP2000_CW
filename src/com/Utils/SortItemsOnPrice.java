@@ -7,6 +7,7 @@ public class SortItemsOnPrice implements ISort{
   public SortItemsOnPrice(boolean isAscending) { this.isAscending = isAscending; }
 
   @Override
+  // Sort on the price value from the ItemModel object
   public boolean doCompare(Object itemOne, Object itemTwo) {
     ItemModel firstItem = (ItemModel) itemOne;
     ItemModel secondItem = (ItemModel) itemTwo;

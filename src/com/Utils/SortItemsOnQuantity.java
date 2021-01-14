@@ -7,6 +7,7 @@ public class SortItemsOnQuantity implements ISort{
   public SortItemsOnQuantity(boolean isAscending) { this.isAscending = isAscending; }
 
   @Override
+  // Integer comparrision from on the item's quantity
   public boolean doCompare(Object itemOne, Object itemTwo) {
     ItemModel firstItem = (ItemModel) itemOne;
     ItemModel secondItem = (ItemModel) itemTwo;

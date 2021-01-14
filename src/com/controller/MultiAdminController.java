@@ -15,6 +15,7 @@ public class MultiAdminController extends AbstractController {
   private AbstractView view;
   private Method[] modelMethods;
 
+  // Identifiers for updating the view
   public static final String USER_NAME = "UserName";
   public static final String PASSWORD = "Password";
   public static final String USERS = "USERS";
@@ -29,6 +30,8 @@ public class MultiAdminController extends AbstractController {
     currentModel.subscribe(this);
   }
 
+  // Remove the current item from the model
+  // This is used to delete an account
   public void delete(){
     this.models.remove(this.currentModel);
     currentModel = models.get(0);
@@ -37,19 +40,26 @@ public class MultiAdminController extends AbstractController {
     writeFile();
   }
 
+  // User name and password validation
   public void checkLogin(String userName, String password) {
+    // Loop through every model
     for (IModel model:
          models) {
       AdminModel current = (AdminModel) model;
+      // If the user name matches the given username
       if(current.getUserName().equals(userName)) {
+        // If the provided password is valid
         if(current.validatePassword(password)){
+          // Tell the view the password was valid
           updateView(new KeyValuePair<AdminModel>("Validated", new AdminController(current)));
+          // Tell the view if the validated user is an admin
           if (!current.getAdmin()) updateView(new KeyValuePair<Boolean>("isAdmin", false));
           else {
             updateView(new KeyValuePair<MultiAdminController>("Validated admin", this));
           }
           return;
         } else {
+          // tell the view the password wasn't correct
           updateView(new KeyValuePair<String>("Validate", "Wrong Password"));
           return;
         }
@@ -60,11 +70,13 @@ public class MultiAdminController extends AbstractController {
 
   public void updateNamesList() {
     List<String> userNames = new ArrayList<>();
+    // Get all the userNames
     for (IModel model:
             models) {
       AdminModel current = (AdminModel) model;
       userNames.add(current.getUserName());
     }
+    // Tell the view these usernames
     updateView(new KeyValuePair<List<String>>(USERS, userNames.toArray()));
   }
 
@@ -135,7 +147,6 @@ public class MultiAdminController extends AbstractController {
 
   @Override
   public void swapModel(int index) {
-
     if (index >= 0 && index < models.size()) {
       if (currentModel != models.get(index)) {
         currentModel.unSubscribe(this);

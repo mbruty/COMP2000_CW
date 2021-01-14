@@ -30,6 +30,7 @@ public class Receipt {
   public String print() {
     StringBuilder receipt = new StringBuilder();
     receipt.append(Main.COMPANY_NAME + "\n");
+    // If it's using a card, add the card info
     if(isCard) {
       receipt.append("Payment Provider: ");
       receipt.append(cardType == PaymentContext.cardType.MASTER_CARD ? "Mastercard\n" : "");
@@ -46,6 +47,7 @@ public class Receipt {
         receipt.append(item.getName()).append(" - £").append(item.getPrice()).append("\n");
       }
     }
+    // If it's using cash, add cash info
     if(isCash) {
       receipt.append("Cash Paid: ").append(amountPaid).append("\n");
       receipt.append("Dispensing Change: \n")
@@ -54,6 +56,7 @@ public class Receipt {
     }
     receipt.append("Total: ").append(price);
 
+    // Build the string and return it
     return receipt.toString();
   }
 

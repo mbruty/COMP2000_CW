@@ -1,11 +1,11 @@
 name,quantity,code,price,order quantity
 Example Item 2,2220,5110,12.99,0
-Example Item,100,22222,5.0,50
+Example Item,100,222,5.0,50
 Tofu,29,123,2.35,0
 Beyond Burgers,20,555,5.5,0
 Bruty's Buns,150,111,2.99,0
 Bruty's Beans,-7,99,0.95,25
-Jawa Juice,5000,1337,12.49,500
+Jawa Juice,4999,1337,12.49,500
 Death Sticks,2,99,59.89,20
 Palpatine Protein,82,66,28.25,66
 Eggs,0,5223,1.65,24

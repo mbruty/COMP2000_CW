@@ -45,14 +45,19 @@ public class StockController extends AbstractController {
   }
 
   public ItemModel getItemByCode(int code) throws Exception {
+    // Loop through all the items
     for (IModel model:
          models) {
       ItemModel itemModel = (ItemModel) model;
+      // If the code matches
       if(itemModel.getCode() == code )
+        // We're done! Return the model associated with the code
         return itemModel;
     }
+    // No model found, throw a not found exception
     throw new Exception("Not found");
   }
+
   public void newModel() {
     //Create new empty model
     models.add(0, new ItemModel("New Item", 0.0f, 0, 0, 0));
@@ -91,6 +96,7 @@ public class StockController extends AbstractController {
       array[i] = (ItemModel) models.get(i);
     }
     Sort<IModel> sort = new Sort<>(array);
+    // Set the strategy from what type of sort is selected
     switch(sortOn) {
       case "Name ASC" -> {
         sort.changeStrategy(new SortItemsOnName(true));

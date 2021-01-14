@@ -7,6 +7,7 @@ public class SortItemsOnName implements ISort{
   public SortItemsOnName(boolean isAscending) { this.isAscending = isAscending; }
 
   @Override
+  // Lexicographic sorting of strings
   public boolean doCompare(Object itemOne, Object itemTwo) {
     ItemModel firstItem = (ItemModel) itemOne;
     ItemModel secondItem = (ItemModel) itemTwo;

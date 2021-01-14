@@ -16,7 +16,7 @@ public class MockItemModel implements IModel {
 
   @Override
   public void subscribe(AbstractController observer) {
-
+    this.observers.add(observer);
   }
 
   @Override

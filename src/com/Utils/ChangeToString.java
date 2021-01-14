@@ -2,6 +2,7 @@ package com.Utils;
 
 import java.util.List;
 
+// Simple function to convert pennies to their corresponding coin / note
 public class ChangeToString {
   public static String convert(List<Integer> pennies) {
     StringBuilder result = new StringBuilder();

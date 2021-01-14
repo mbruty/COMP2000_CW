@@ -9,13 +9,6 @@ public class AdminController extends AbstractController {
   private final AdminModel model;
   private Admin view;
 
-  public AdminController(AdminModel model, Admin view) {
-    this.model = model;
-    this.view = view;
-    this.model.subscribe(this);
-    view.setAdminController(this);
-  }
-
   public AdminController(AdminModel model) {
     this.model = model;
     this.model.subscribe(this);
