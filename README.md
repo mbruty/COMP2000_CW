@@ -1,4 +1,7 @@
 # COMP2000 Project
+Example user:
+username: JHayter
+password: i<3java
 ## Patterns used:
 MVC
 Observer
